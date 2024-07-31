@@ -43,7 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     "corsheaders",
+    "authapi",
+    "core",
 ]
+
+AUTH_USER_MODEL = 'authapi.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
