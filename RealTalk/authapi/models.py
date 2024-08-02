@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
+from django.templatetags.static import static
+import uuid
 
 
 class CustomManager(BaseUserManager):
@@ -85,4 +87,33 @@ class CustomUser(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
+
+
+class Profile(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    location = models.CharField(max_length=20, null=True, blank=True)
+    bio = models.TextField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.user)
+
+    # @property
+    # def avatar(self):
+    #     try:
+    #         avatar = self.image.url
+    #     except:
+    #         avatar = static('images/avatar_default.svg')
+    #     return avatar
+
+    @property
+    def name(self):
+        if self.realname:
+            name = self.realname
+        else:
+            name = self.user.username
+        return name
+
 

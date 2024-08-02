@@ -116,3 +116,28 @@ class LikedReply(models.Model):
     def __str__(self):
         return f'{self.user.username} : {self.reply.body[:30]}'
 
+
+class Feature(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    developer = models.CharField(max_length=255, unique=True)
+    staging_enabled = models.BooleanField(default=False)
+    production_enabled = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.name)
+
+    class Meta:
+        ordering = ['-created']
+
+
+class LandingPage(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    is_enabled = models.BooleanField(default=False)
+    access_code = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.name)
+
+    class Meta:
+        ordering = ['name']
