@@ -12,7 +12,6 @@ class LandingPageAdmin(admin.ModelAdmin):
 
 
 
-
 admin.site.register(Post)
 admin.site.register(Tag)
 admin.site.register(Comment)

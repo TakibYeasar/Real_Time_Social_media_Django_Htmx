@@ -4,12 +4,9 @@ from RealTalk.settings import AUTH_USER_MODEL
 
 # Create your models here.
 
-
 class Post(models.Model):
     title = models.CharField(max_length=500)
-    artist = models.CharField(max_length=500, null=True)
-    url = models.URLField(max_length=500, null=True)
-    image = models.URLField(max_length=500)
+    image = models.ImageField(upload_to="post/")
     author = models.ForeignKey(
         AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='posts')
     body = models.TextField()

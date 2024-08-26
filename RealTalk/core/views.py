@@ -7,8 +7,6 @@ from django.http import HttpResponse
 from django.db.models import Count
 from .models import *
 from .forms import *
-from bs4 import BeautifulSoup
-import requests
 from django.contrib import messages
 from django.core.paginator import Paginator
 
@@ -53,33 +51,11 @@ def post_create_view(request):
         form = PostCreateForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-
-            website = requests.get(form.data['url'])
-            sourcecode = BeautifulSoup(website.text, 'html.parser')
-            find_image = sourcecode.select(
-                'meta[content^="https://live.staticflickr.com/"]')
-            try:
-                image = find_image[0]['content']
-            except:
-                messages.error(request, 'Requested image is not on Flickr!')
-                return redirect('post-create')
-
-            post.image = image
-
-            find_title = sourcecode.select('h1.photo-title')
-            title = find_title[0].text.strip()
-            post.title = title
-
-            find_artist = sourcecode.select('a.owner-name')
-            artist = find_artist[0].text.strip()
-            post.artist = artist
-
             post.author = request.user
-
             post.save()
             form.save_m2m()
             return redirect('home')
-
+        
     return render(request, 'core/post_create.html', {'form': form})
 
 

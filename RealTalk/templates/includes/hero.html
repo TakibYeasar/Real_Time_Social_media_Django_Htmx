@@ -5,7 +5,7 @@
         <p class="text-lg font-bold mb-5">Share your favorite Photos from Flickr and add a great caption</p>
         {% if not user.is_authenticated %}
         <a style="padding:20px; background-color:#5828F4; border-radius:10px;"
-        class="button" href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}">Create Account</a>
+        class="button" href="{% url 'authapi:account_signup' %}?next={% url 'authapi:profile-onboarding' %}">Create Account</a>
         {% endif %}
     </div>
 </hero>
